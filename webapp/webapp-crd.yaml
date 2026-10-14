@@ -1,0 +1,39 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: webapps.webapp.techeasy.com
+spec:
+  group: webapp.techeasy.com
+  scope: Namespaced
+  names:
+    plural: webapps
+    singular: webapp
+    kind: WebApp
+    shortNames:
+      - wa
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required: [image, replicas]
+              properties:
+                image:
+                  type: string
+                  description: The container image for the web application.
+                replicas:
+                  type: integer
+                  description: The number of replicas for the web application.
+                  minimum: 1
+                  maximum: 10
+                port:
+                  type: integer
+                  description: The port on which the web application will listen.
+                  minimum: 1
+                  maximum: 65535
+                  default: 8080
